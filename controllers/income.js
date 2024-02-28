@@ -1,14 +1,15 @@
-const IncomeSchema = require('../models/IncomeModel.js')
+const IncomeSchema = require('../models/IncomeModel.js') 
 
+// add income method 
 exports.addIncome = async (req, res) => {
-    const {title, amount, category, description, date} = req.body
+    const {title, amount, date, category, description} = req.body
 
     const income = IncomeSchema({
         title,
         amount,
+        date,
         category, 
-        description,
-        date
+        description
     })
 
     try{ 
@@ -19,11 +20,44 @@ exports.addIncome = async (req, res) => {
         if (amount <= 0 ) {
             return res.status(400).json({message: 'Amount must be postive'})
         }
+        else {
         // save instance to database
         await income.save()
-        res.status(200).json({message: 'income successfully added'})
+        res.status(200).json({message: 'income successfully added'})}
     } catch(error){
         res.status(500).json({message: 'Server error'})
     }
     console.log(income)
+}
+
+const newData = new IncomeSchema({
+    title: "Bitcoin234 Income",
+    amount: "10",
+    date: "10-10-2020",
+    category: "salary",
+    description: "bitcoin income salary"
+})
+newData.save()
+
+// get income method 
+exports.getIncome = async (req, res) => {
+    try {
+        // sort to have last created item at the top of the list 
+        const incomes = await IncomeSchema.find().sort({createdAt: -1})
+        res.status(200).json(incomes)
+    } catch (error) {
+        res.status(500).json({message: "server error"})
+    }
+}
+
+// delete income method 
+exports.deleteIncome = async (req, res) => {
+    const {id} = req.params
+    IncomeSchema.findByIdAndDelete(id)
+        .then((income) => {
+            res.status(200).json({message: "Income Deleted"})
+        })
+        .catch((error) => {
+            res.status(500).json({message: "Server Error"})
+        })
 }
