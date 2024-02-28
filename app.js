@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 //routes 
-// make base api v1
+// include routes from files within the './routes' directory into Express application under the '/api/v1' base path
 readdirSync('./routes').map((router) => app.use('/api/v1', require('./routes/' + router)))
 
 const server = () => {
