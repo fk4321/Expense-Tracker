@@ -17,7 +17,7 @@ exports.addIncome = async (req, res) => {
         if(!title || !category || !description || !date) {
             return res.status(400).json({message: 'All fields are required'})
         }
-        if (amount <= 0 ) {
+        if (amount <= 0 || !amount === 'number') {
             return res.status(400).json({message: 'Amount must be postive'})
         }
         else {
@@ -28,15 +28,6 @@ exports.addIncome = async (req, res) => {
         res.status(500).json({message: 'Server error'})
     }
 }
-
-const newData = new IncomeSchema({
-    title: "Bitcoin234 Income",
-    amount: "10",
-    date: "10-10-2020",
-    category: "salary",
-    description: "bitcoin income salary"
-})
-newData.save()
 
 // get income method 
 exports.getIncome = async (req, res) => {
