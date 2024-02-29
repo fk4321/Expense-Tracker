@@ -27,7 +27,6 @@ exports.addIncome = async (req, res) => {
     } catch(error){
         res.status(500).json({message: 'Server error'})
     }
-    console.log(income)
 }
 
 const newData = new IncomeSchema({

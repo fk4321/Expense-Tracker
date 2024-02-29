@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const MONGO_URL = 'mongodb+srv://felixbiwott144:UpQud1OwRay9RAbc@cluster0.iypdqpn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
 // connect to database 
 const dbNew = async () => {

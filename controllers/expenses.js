@@ -18,7 +18,27 @@ const addExpense = async (req, res) => {
    }
 }
 // get expense
+const getExpense = async(req, res) => {
+    try {
+        const expense = await ExpenseSchema.find().sort({createdAt: -1})
+        req.send(expense)
+    } catch (error) {
+        
+    }
+    
+}
 // delete expense 
+const deleteExpense = async (req,res) => {
+    console.log(req.params)
+    const {id} = req.params
+    ExpenseSchema.findByIdAndDelete(id)
+        .then((expense) => {
+            res.status(200).json({message: 'expense deleted'})
+        }) 
+        .catch((error)=>{
+            res.status(500).json({message: 'Server Error'})
+        }) 
+}
 module.exports = {
-    addExpense
+    addExpense, getExpense, deleteExpense
 }
